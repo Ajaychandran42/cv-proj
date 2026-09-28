@@ -1,0 +1,520 @@
+:root {
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  color-scheme: light;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #f4f6fb;
+  color: #1a1d24;
+}
+
+button {
+  font-family: inherit;
+}
+
+.centered {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  text-align: center;
+  padding: 24px;
+  gap: 8px;
+}
+
+.muted {
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.error-banner {
+  background: #fee2e2;
+  color: #991b1b;
+  padding: 10px 16px;
+  border-radius: 6px;
+  margin: 12px 0;
+}
+
+/* ---------- App shell (sidebar + topbar) ---------- */
+.app-shell {
+  display: flex;
+  min-height: 100vh;
+}
+
+.sidebar {
+  width: 220px;
+  flex-shrink: 0;
+  background: #fff;
+  border-right: 1px solid #e5e7eb;
+  padding: 20px 16px;
+}
+
+.brand {
+  font-size: 20px;
+  font-weight: 700;
+  color: #3b3fd6;
+  margin-bottom: 28px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.brand-mark {
+  color: #3b82f6;
+}
+
+.nav-section {
+  margin-bottom: 20px;
+}
+
+.nav-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #9ca3af;
+  letter-spacing: 0.05em;
+  margin-bottom: 8px;
+}
+
+.nav-link {
+  display: block;
+  padding: 8px 10px;
+  border-radius: 6px;
+  color: #374151;
+  text-decoration: none;
+  font-size: 14px;
+  margin-bottom: 2px;
+}
+
+.nav-link:hover {
+  background: #f3f4f6;
+}
+
+.nav-link.active {
+  background: #3b82f6;
+  color: white;
+}
+
+.app-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #fff;
+  border-bottom: 1px solid #e5e7eb;
+  padding: 14px 24px;
+}
+
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+  color: #374151;
+}
+
+.page-content {
+  padding: 24px;
+  flex: 1;
+}
+
+/* ---------- Exam cards (Home dashboard) ---------- */
+.exam-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.exam-card {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  overflow: hidden;
+  text-align: left;
+  cursor: pointer;
+  padding: 0;
+}
+
+.exam-card-thumb {
+  height: 100px;
+  background: linear-gradient(135deg, #6366f1, #22d3ee);
+}
+
+.exam-card-body {
+  padding: 12px 14px;
+}
+
+.exam-card-body h3 {
+  margin: 0 0 4px;
+  font-size: 16px;
+}
+
+.exam-tag {
+  font-size: 11px;
+  color: #6b7280;
+  text-transform: uppercase;
+}
+
+.exam-card-meta {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+  font-size: 13px;
+  color: #374151;
+}
+
+/* ---------- Forms (Create Exam / Add Questions) ---------- */
+.form-page {
+  max-width: 560px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.stacked-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.stacked-form label,
+.form-page > label {
+  display: flex;
+  flex-direction: column;
+  font-size: 13px;
+  font-weight: 600;
+  color: #374151;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+input,
+select,
+.text-input,
+.select-input {
+  padding: 10px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 400;
+  width: 100%;
+}
+
+.select-input,
+.text-input {
+  margin: 8px 0 16px;
+}
+
+button {
+  padding: 10px 18px;
+  border-radius: 6px;
+  border: none;
+  background: #3b82f6;
+  color: white;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+button.primary {
+  background: #3b82f6;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.option-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.option-input {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  font-size: 13px;
+  font-weight: 600;
+  color: #374151;
+  gap: 6px;
+}
+
+.option-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  white-space: nowrap;
+  padding-bottom: 10px;
+}
+
+.option-checkbox input {
+  width: auto;
+}
+
+.button-row {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+/* ---------- Toasts ---------- */
+.toast {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: white;
+  border-radius: 8px;
+  padding: 12px 20px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  font-weight: 600;
+  z-index: 1000;
+  border-left: 4px solid #22c55e;
+}
+
+.toast-success {
+  border-left-color: #22c55e;
+  color: #166534;
+}
+
+.toast-error {
+  border-left-color: #ef4444;
+  color: #991b1b;
+}
+
+/* ---------- Tables ---------- */
+.logs-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-top: 8px;
+}
+
+.logs-table th,
+.logs-table td {
+  padding: 10px 12px;
+  text-align: left;
+  border-bottom: 1px solid #eef0f3;
+  font-size: 14px;
+}
+
+.logs-table th {
+  background: #f9fafb;
+  font-weight: 700;
+}
+
+.status-pill {
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  color: white;
+}
+
+.status-in_progress {
+  background: #3b82f6;
+}
+.status-completed {
+  background: #22c55e;
+}
+.status-terminated {
+  background: #ef4444;
+}
+
+/* ---------- Exam Room (full-screen, dark) ---------- */
+.exam-room {
+  min-height: 100vh;
+  background: #f4f6fb;
+  color: #1a1d24;
+}
+
+.exam-topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #fff;
+  border-bottom: 1px solid #e5e7eb;
+  padding: 14px 24px;
+}
+
+.exam-content {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+  flex-wrap: wrap;
+}
+
+.exam-question-panel {
+  flex: 2;
+  min-width: 320px;
+  background: #fff;
+  border-radius: 10px;
+  padding: 24px;
+  border: 1px solid #e5e7eb;
+}
+
+.option-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.radio-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  padding: 8px 10px;
+  border-radius: 6px;
+}
+
+.radio-row:hover {
+  background: #f3f4f6;
+}
+
+.radio-row input {
+  width: auto;
+}
+
+.exam-side-panel {
+  flex: 1;
+  min-width: 260px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.exam-meta-bar {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.finish-btn {
+  background: #f97316;
+  align-self: flex-start;
+}
+
+.question-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 14px;
+}
+
+.question-grid-btn {
+  background: #e5e7eb;
+  color: #374151;
+  padding: 10px 0;
+  font-weight: 600;
+}
+
+.question-grid-btn.current {
+  background: #3b82f6;
+  color: white;
+}
+
+.question-grid-btn.answered:not(.current) {
+  background: #bbf7d0;
+  color: #166534;
+}
+
+.webcam-mini {
+  width: 100%;
+  max-width: 260px;
+  align-self: flex-end;
+  border-radius: 10px;
+  border: 2px solid #1a1d24;
+  transform: scaleX(-1);
+}
+
+/* ---------- Violation modal ---------- */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 17, 21, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 32px 40px;
+  text-align: center;
+  max-width: 360px;
+}
+
+.modal-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: 3px solid #ef4444;
+  color: #ef4444;
+  font-size: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+}
+
+.modal-card h2 {
+  margin: 0 0 6px;
+  font-size: 20px;
+}
+
+.modal-card p {
+  color: #6b7280;
+  margin: 0 0 20px;
+}
+
+.modal-ok {
+  background: #38bdf8;
+  padding: 8px 32px;
+}
+
+/* ---------- Termination / submitted screens ---------- */
+.termination-screen {
+  background: #0f1115;
+  color: #eaeaea;
+}
+
+.termination-screen h1 {
+  color: #ef4444;
+}
+
+.submitted-screen h1 {
+  color: #16a34a;
+}
+
+.submitted-screen button {
+  margin-top: 12px;
+}
