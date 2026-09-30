@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Phoenix — AI Proctoring Platform</title>
+    <script>
+      // OpenCV.js attaches its API onto `Module` as it loads, but the WASM
+      // runtime isn't ready the instant the script tag fires -- calling e.g.
+      // `new cv.BackgroundSubtractorMOG2()` before then throws. Pre-defining
+      // `Module` lets us only expose `window.cv` once `onRuntimeInitialized`
+      // fires, so any `if (window.cv)` check elsewhere in the app is
+      // guaranteed to mean "fully ready to use", not just "script loaded".
+      window.Module = {
+        onRuntimeInitialized() {
+          window.cv = window.Module;
+          console.log('[Phoenix] OpenCV.js ready');
+        },
+      };
+    </script>
+    <script async src="https://docs.opencv.org/4.9.0/opencv.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
