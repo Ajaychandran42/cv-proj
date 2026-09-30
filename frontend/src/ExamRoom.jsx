@@ -45,6 +45,16 @@ function getYawPitchFromMatrix(m) {
   return { yaw, pitch };
 }
 
+// Wraps a promise so a stuck load (e.g. a GPU/WebGL init that never resolves
+// under some browsers' privacy-shielding) fails with a clear message instead
+// of leaving the student staring at an infinite spinner or a frozen tab.
+function withTimeout(promise, ms, message) {
+  return Promise.race([
+    promise,
+    new Promise((_, reject) => setTimeout(() => reject(new Error(message)), ms)),
+  ]);
+}
+
 function formatTime(totalSeconds) {
   const s = Math.max(0, Math.floor(totalSeconds));
   const m = Math.floor(s / 60);
@@ -324,7 +334,11 @@ export default function ExamRoom() {
         if (cancelled) return;
         if (videoRef.current) {
           videoRef.current.srcObject = stream;
-          await new Promise((res) => (videoRef.current.onloadedmetadata = res));
+          await withTimeout(
+            new Promise((res) => (videoRef.current.onloadedmetadata = res)),
+            15000,
+            'Camera did not start in time. Check that no other app is using it, then reload.'
+          );
           videoRef.current.play();
         }
 
@@ -332,12 +346,18 @@ export default function ExamRoom() {
           'https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.17/wasm'
         );
 
-        const [faceLandmarker, objectDetector] = await Promise.all([
+        // CPU delegate, not GPU: the GPU/WebGL path can hang indefinitely on
+        // browsers that restrict or randomize WebGL for anti-fingerprinting
+        // (Brave Shields being the common case) — it fails silently instead
+        // of throwing, which is what causes the tab to lock up rather than
+        // show an error. CPU is slightly slower per frame but reliable, and
+        // the loop already throttles object detection to every 5th frame.
+        const modelLoad = Promise.all([
           FaceLandmarker.createFromOptions(filesetResolver, {
             baseOptions: {
               modelAssetPath:
                 'https://storage.googleapis.com/mediapipe-models/face_landmarker/face_landmarker/float16/1/face_landmarker.task',
-              delegate: 'GPU',
+              delegate: 'CPU',
             },
             outputFacialTransformationMatrixes: true,
             runningMode: 'VIDEO',
@@ -347,12 +367,18 @@ export default function ExamRoom() {
             baseOptions: {
               modelAssetPath:
                 'https://storage.googleapis.com/mediapipe-models/object_detector/efficientdet_lite0/int8/1/efficientdet_lite0.tflite',
-              delegate: 'GPU',
+              delegate: 'CPU',
             },
             scoreThreshold: 0.5,
             runningMode: 'VIDEO',
           }),
         ]);
+
+        const [faceLandmarker, objectDetector] = await withTimeout(
+          modelLoad,
+          25000,
+          'Computer vision models took too long to load. Try disabling browser privacy/shield extensions for this site, or use Chrome, then reload.'
+        );
         if (cancelled) return;
         faceLandmarkerRef.current = faceLandmarker;
         objectDetectorRef.current = objectDetector;
@@ -624,6 +650,7 @@ export default function ExamRoom() {
     return (
       <div className="centered">
         <div className="error-banner">{initError}</div>
+        <button onClick={() => window.location.reload()}>Reload and Try Again</button>
       </div>
     );
   }
